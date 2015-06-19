@@ -1,0 +1,9 @@
+<ion-view view-title="Cubs">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="cub in cubs" href="#/app/cubs/{{cub._id}}">
+        {{cub.name}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
