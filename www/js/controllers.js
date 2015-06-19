@@ -16,25 +16,24 @@ angular.module('starter.controllers', [])
         console.log('Ch-Ch-Changes');
     });
 
-    //var entities = [
-    //  { name: 'Grace Stewart', id: 1, type: 'cub' },
-    //  { name: 'Jacob Grinter', id: 2, type: 'cub' },
-    //  { name: 'Tyler Murphy', id: 3, type: 'cub' },
-    //  { name: 'Steve Murphy', id: 4, type: 'leader' }
-    //];
-
-
+    var entities = [
+      { name: 'Grace Stewart', id: 1, type: 'cub', imgsrc:'img/no_photo.png' },
+      { name: 'Jacob Grinter', id: 2, type: 'cub', imgsrc:'img/no_photo.png' },
+      { name: 'Tyler Murphy', id: 3, type: 'cub', imgsrc:'img/no_photo.png' },
+      { name: 'Steve Murphy', id: 4, type: 'leader', imgsrc:'img/no_photo.png' }
+    ];
+  
     function initNewDatabase(db)
     {
-        db.put({ "_id": '1', "name": 'Grace Stewart', "type": 'cub' }, function (err, result)
-        {
+        /*db.put({ "_id": '1', "name": 'Grace Stewart', "type": 'cub' }, function (err, result) {
             if (!err) {
                 alert('insert ok -> id:' + result.id);
             }
             else
                 alert(err);
-        }
-        );
+            }
+            );
+       */
             //db.put({ "_id": '2', "name": 'Jacob Grinter', "type": 'cub' }),
             //db.put({ "_id": '3', "name": 'Tyler Murphy', "type": 'cub' }),
             //db.put({ "_id": "4", "name": 'Steve Murphy', "type": 'leader' })
@@ -44,11 +43,15 @@ angular.module('starter.controllers', [])
 
     this.getAllEntities = function (allEntries)
     {
-        //return entities;
-
+ 
         var result = $q.defer();
+        
+        result.resolve(entities);
+        
+        return result.promise;
+        
+        /*
         var temp = [];
-
         db.allDocs({
             include_docs: true,
             attachments: false
@@ -61,39 +64,50 @@ angular.module('starter.controllers', [])
         });
 
         return result.promise;
+        */
     }
 
     this.getEntity = function (whichid)
     {
-        //var result = entities.filter(function (obj) {
-        //    return obj.id == whichid;
-        //});
-
-        //if (result.length > 0)
-        //    return result[0];
-        //else
-        //    return null;
-
         var result = $q.defer();
+        
+        var temp = entities.filter(function (obj) {
+            return obj.id == whichid;
+        });
+
+        if (temp.length > 0)
+            result.resolve(temp[0]);
+        else
+            result.resolve(null);
+
+        return result.promise;
+/*
+        
 
         db.get(whichid).then(function (results) {
             result.resolve(results);
         });
 
         return result.promise;
+        */
     }
 
     this.getEntities = function (whichtype) {
 
-        //var result = entities.filter(function (obj) {
-        //    return obj.type == whichtype;
-        //});
+        var prom = $q.defer();
 
-        //if (result.length > 0)
-        //    return result;
-        //else
-        //    return null;
+        var result = entities.filter(function (obj) {
+            return obj.type == whichtype;
+        });
 
+        if (result.length > 0)
+            prom.resolve(result);
+        else
+            prom.resolve(null);
+            
+        return prom.promise;
+
+/*
         var result = $q.defer();
 
         temp = [];
@@ -112,8 +126,25 @@ angular.module('starter.controllers', [])
 
         return result.promise;
 
-        
+  */      
 
+    }
+    
+    this.saveEntity = function (entity) {
+        if (entity._id === undefined)
+        {
+            // its a new entity to save
+            var newid = entities.length;
+            entity._id = newid;
+            entities.push(entity);
+        }
+        else
+        {
+            // its an existing entity to update
+            // dont think we need to do anything here, 
+            // as its all passed by reference, should be
+            // editing the entity in the array in place. 
+        }
     }
 
 
