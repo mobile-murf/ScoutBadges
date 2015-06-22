@@ -5,6 +5,11 @@
 
 declare module ng.ui {
 
+    //HACK
+    interface IServiceProvider { }
+    interface IPromise<stuff> { }
+    //END HACK
+
     interface IState {
         name?: string;
         template?: string;
