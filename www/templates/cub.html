@@ -1,6 +1,49 @@
 <ion-view view-title="Cub">
   <ion-content>
     <h1>{{cub.name}}</h1>
-    <ion-label>{{ cub.type }}</ion-label>
+    
+    <div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s6">
+          
+          <label for="first_name">First Name</label>
+          <input placeholder="First Name" id="first_name" type="text" class="validate" value="{{cub.firstname}}">
+          
+        </div>
+        <div class="input-field col s6">
+          
+          <label for="last_name">Last Name</label>
+          <input id="last_name" type="text" class="validate" value="{{cub.lastname}}">
+          
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          
+          <label for="dob">Date of Birth</label>
+          <input id="dob" type="date" class="datepicker" value="{{cub.dob}}">
+          
+        </div>
+        <div class="input-field col s6">
+          
+          <label for="dateinvested">Date Invested</label>
+          <input id="dateinvested" type="date" class="datepicker" value="{{cub.dateinvested}}">
+          
+        </div>
+      </div>
+
+    </form>
+  </div>
+    
+   <script type='text' language="javascript">
+     alert('here!');
+     $('.datepicker').pickadate({
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 15 // Creates a dropdown of 15 years to control year
+    });
+     </script>
+    
+    
   </ion-content>
 </ion-view>
