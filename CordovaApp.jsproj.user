@@ -4,7 +4,7 @@
     <DebuggerFlavor>WindowsLocal</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
-    <ShowAllFiles>true</ShowAllFiles>
-    <ReferenceCachePath>C:\Users\Stephen\AppData\Local\Temp\CordovaApp_refcache</ReferenceCachePath>
+    <ShowAllFiles>false</ShowAllFiles>
+    <ReferenceCachePath>C:\Users\admin\AppData\Local\Temp\CordovaApp_refcache</ReferenceCachePath>
   </PropertyGroup>
 </Project>

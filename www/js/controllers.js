@@ -17,10 +17,10 @@ angular.module('starter.controllers', [])
     });
 
     var entities = [
-      { name: 'Grace Stewart', id: 1, type: 'cub', imgsrc:'img/no_photo.png' },
-      { name: 'Jacob Grinter', id: 2, type: 'cub', imgsrc:'img/no_photo.png' },
-      { name: 'Tyler Murphy', id: 3, type: 'cub', imgsrc:'img/no_photo.png' },
-      { name: 'Steve Murphy', id: 4, type: 'leader', imgsrc:'img/no_photo.png' }
+      { name: 'Grace Stewart', _id: 1, type: 'cub', imgsrc:'img/no_photo.png' },
+      { name: 'Jacob Grinter', _id: 2, type: 'cub', imgsrc:'img/no_photo.png' },
+      { name: 'Tyler Murphy', _id: 3, type: 'cub', imgsrc:'img/no_photo.png' },
+      { name: 'Steve Murphy', _id: 4, type: 'leader', imgsrc:'img/no_photo.png' }
     ];
   
     function initNewDatabase(db)
@@ -72,7 +72,7 @@ angular.module('starter.controllers', [])
         var result = $q.defer();
         
         var temp = entities.filter(function (obj) {
-            return obj.id == whichid;
+            return obj._id == whichid;
         });
 
         if (temp.length > 0)
@@ -208,7 +208,7 @@ angular.module('starter.controllers', [])
     var query = entityService.getEntity(whichcub);
     query.then(function (result) {
         $scope.cub = result;
-        //$scope.$apply;
+        $scope.$apply;
     })
     
 });
