@@ -752,10 +752,33 @@
     ".git\\objects\\95\\3ab1d02c78a43c8d55a3ed1ecb25709b92e5d1",
     ".git\\objects\\49\\f01dd272430c579c0da6d3f7de76abd56277d6",
     ".git\\objects\\3c\\2ebeceb8a1466a6155473719e453174f161019",
-    ".git\\objects\\6f\\463dcf23bf81a0365681fd0bc7d4349beeebe8"
+    ".git\\objects\\6f\\463dcf23bf81a0365681fd0bc7d4349beeebe8",
+    ".git\\objects\\9e\\5bf43dfa55ed3e2388a3affc2b30f93ae5d862",
+    ".git\\objects\\3e\\3713049c4d41eb1f4b540093cae5b9d1816731",
+    ".git\\objects\\a3\\e9e0e53de6ca36577d134c4f35d1b3f7fce328",
+    ".git\\objects\\ad\\c4f6919ce16a633441612699e78eabbb995609",
+    ".git\\objects\\48\\0d239d652fc8be7cc9ff4beddd33738eea98d1",
+    ".git\\objects\\6c\\a9d6dbecb7635bf0379fce9929aaa566f919b5",
+    ".git\\objects\\48\\ce98bea4e3c5af01d8d0d9d33634ed274f5ef3",
+    ".git\\objects\\f8\\d5e3a1a064128208126e10faf1573c207d5609"
   ],
   "deletedFilesIos": [
-    "www\\js\\Models.js"
+    "www\\js\\Models.js",
+    ".git\\index.lock",
+    ".git\\objects\\a3\\tmp_obj_pQa8Ic",
+    "www\\lib\\ionic-datepicker\\dist\\style.css",
+    "www\\lib\\ionic-datepicker\\src\\date-picker-modal.html",
+    "www\\lib\\ionic-datepicker\\LICENSE.MD",
+    "www\\lib\\ionic-datepicker\\.bower.json",
+    "www\\lib\\ionic-datepicker\\bower.json",
+    "www\\lib\\ionic-datepicker\\dist\\ionic-datepicker.js",
+    "www\\lib\\ionic-datepicker\\gulpfile.js",
+    "www\\lib\\ionic-datepicker\\src\\ionic-datepicker.js",
+    "www\\lib\\ionic-datepicker\\dist\\templates.js",
+    "www\\lib\\ionic-datepicker\\package.json",
+    "www\\lib\\ionic-datepicker\\README.md",
+    "www\\lib\\ionic-datepicker\\src\\style.css",
+    "www\\lib\\ionic-datepicker\\npm-debug.log"
   ],
   "addedPluginsIos": [],
   "deletedPluginsIos": [],
@@ -763,8 +786,7 @@
     "plugins\\android.json",
     "www\\scripts\\appBundle.js.map",
     "www\\scripts\\appBundle.js",
-    "www\\css\\index.css",
-    "www\\css\\style.css"
+    "www\\js\\services.js"
   ],
   "deletedFiles": [],
   "addedPlugins": [],

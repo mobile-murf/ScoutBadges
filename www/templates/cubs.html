@@ -1,12 +1,22 @@
 <ion-view view-title="Cubs">
-  <ion-content>
-    <ion-list class="collection">
-      <ion-item class="collection-item item-thumbnail-left" ng-repeat="cub in cubs" href="#/app/cubs/{{cub._id}}">
-          
-        <img src="{{cub.imgsrc}}" width="50" height="50" alt="" class="circle">
-        <span class="title">{{cub.name}}</span>
-        <p>Additional Content here...</p>
-      </ion-item>
-    </ion-list>
-  </ion-content>
+    <ion-nav-buttons side="secondary">
+        <button class="button button-icon button-clear ion-person-add"></button>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <div class="list">
+            <label class="item item-input">
+                <i class="icon ion-funnel placeholder-icon"></i>
+                <input ng-model="query" type="text" placeholder="Filter">
+            </label>
+        </div>
+
+        <ion-list class="collection">
+            <ion-item class="collection-item item-thumbnail-left" ng-repeat="cub in cubs | filter:query" href="#/app/cubs/{{cub._id}}">
+                <img src="{{GetPhotoSrc(cub.img)}}" width="50" height="50" alt="" class="circle">
+                <span class="title">{{cub.name}}</span>
+                <p>Additional Content here...</p>
+            </ion-item>
+        </ion-list>
+    </ion-content>
 </ion-view>

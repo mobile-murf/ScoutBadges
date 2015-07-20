@@ -1,5 +1,16 @@
 ﻿angular.module('starter.services', [])
 
+.service("photoService", function () {
+
+    this.FormatPhotoSrc = function(data)
+    {
+        if (typeof (data) == 'undefined' || data == null || data.length < 1)
+            return 'img/no_photo.png';
+
+        return 'data:image/jpg;base64,' + data;
+    }
+})
+
 .service("entityService", function ($q) {
     var db = new PouchDB('cubs'); //, { adapter: 'websql' });
 
@@ -16,10 +27,10 @@
     });
 
     var entities = [
-      { name: 'Grace Stewart', _id: 1, type: 'cub', imgsrc: 'img/no_photo.png', firstname: 'Grace', lastname: 'Stewart', dob: '2012-04-23', dateinvested: '2012-04-23T00:00:00.000Z' },
-      { name: 'Jacob Grinter', _id: 2, type: 'cub', imgsrc: 'img/no_photo.png', firstname: 'Jacob', lastname: 'Grinter' },
-      { name: 'Tyler Murphy', _id: 3, type: 'cub', imgsrc: 'img/no_photo.png', firstname: 'Tyler', lastname: 'Murphy' },
-      { name: 'Steve Murphy', _id: 4, type: 'leader', imgsrc: 'img/no_photo.png', firstname: 'Steve', lastname: 'Murphy' }
+      { name: 'Grace Stewart', _id: 1, type: 'cub', img: null, firstname: 'Grace', lastname: 'Stewart', dob: '2012-04-23', dateinvested: '2012-04-23' },
+      { name: 'Jacob Grinter', _id: 2, type: 'cub', firstname: 'Jacob', lastname: 'Grinter' },
+      { name: 'Tyler Murphy', _id: 3, type: 'cub', firstname: 'Tyler', lastname: 'Murphy' },
+      { name: 'Steve Murphy', _id: 4, type: 'leader', firstname: 'Steve', lastname: 'Murphy' }
     ];
 
     function initNewDatabase(db) {

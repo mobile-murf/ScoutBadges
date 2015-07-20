@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['starter.services'])
+angular.module('starter.controllers', ['ionic','starter.services'])
 
 .controller('AppCtrl', function ($scope, $ionicModal, $timeout) {
   
@@ -41,7 +41,7 @@ angular.module('starter.controllers', ['starter.services'])
     };
 })
 
-.controller('CubsCtrl', function ($scope, entityService) {
+.controller('CubsCtrl', function ($scope, entityService, photoService) {
     // get the cub from the entity service?
     var query = entityService.getEntities('cub');
     query.then(function (result) {
@@ -49,6 +49,10 @@ angular.module('starter.controllers', ['starter.services'])
         //$scope.$apply;
     })
     
+    $scope.GetPhotoSrc = function (data) {
+        return photoService.FormatPhotoSrc(data);
+    }
+
 })
 
 .controller('CubCtrl', function ($scope, $stateParams, entityService) {
