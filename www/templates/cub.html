@@ -1,77 +1,41 @@
 <ion-view view-title="Cub">
-  <ion-content>
-    <h1>{{cub.name}}</h1>
-    
-    <div class="row">
-    <form class="col s12" ng-model="cub">
-      <div class="row">
-        <div class="input-field col s6">
-          
-          <label for="first_name">First Name</label>
-          
-          
-        </div>
-        <div class="input-field col s6">
-          
-            <input id="first_name" type="text" class="validate" value="{{cub.firstname}}">
-
-          
-          
-          
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s6">
-          
-            <label for="last_name">Last Name</label>
-          
-        </div>
-        <div class="input-field col s6">
-          
-            <input id="last_name" type="text" class="validate" value="{{cub.lastname}}">
-          
-        </div>
-      </div>
-
+    <ion-content>
+        <img src="{{cub.imgsrc}}" width="100" height="100" alt="" class="circle">
         <div class="row">
-            <div class="input-field col s6">
-
-                <label for="dob">Date of Birth</label>
-                
-
-            </div>
-            <div class="input-field col s6">
-
-                <input id="dob" type="date" class="datepicker" value="{{cub.dob}}">
-
-            </div>
+            <form class="col s12" ng-model="cub">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <label for="first_name">First Name</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="first_name" type="text" class="validate" value="{{cub.firstname}}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <label for="last_name">Last Name</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="last_name" type="text" class="validate" value="{{cub.lastname}}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <label for="dob">Date of Birth</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="dob" type="date" value="{{cub.dob}}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <label for="dateinvested">Date Invested</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="dateinvested" type="date" value="{{cub.dateinvested}}">
+                    </div>
+                </div>
+            </form>
         </div>
-
-        <div class="row">
-            <div class="input-field col s6">
-
-                <label for="dateinvested">Date Invested</label>
-
-            </div>
-            <div class="input-field col s6">
-
-                
-                <input id="dateinvested" type="date" class="datepicker" value="{{cub.dateinvested}}">
-
-            </div>
-        </div>
-
-    </form>
-  </div>
-    
-   <script type='text' language="javascript">
-     alert('here!');
-     $('.datepicker').pickadate({
-      selectMonths: true, // Creates a dropdown to control month
-      selectYears: 15 // Creates a dropdown of 15 years to control year
-    });
-     </script>
-    
-    
-  </ion-content>
+    </ion-content>
 </ion-view>

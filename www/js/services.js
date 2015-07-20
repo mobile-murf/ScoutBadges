@@ -16,7 +16,7 @@
     });
 
     var entities = [
-      { name: 'Grace Stewart', _id: 1, type: 'cub', imgsrc: 'img/no_photo.png', firstname: 'Grace', lastname: 'Stewart' },
+      { name: 'Grace Stewart', _id: 1, type: 'cub', imgsrc: 'img/no_photo.png', firstname: 'Grace', lastname: 'Stewart', dob: '2012-04-23', dateinvested: '2012-04-23T00:00:00.000Z' },
       { name: 'Jacob Grinter', _id: 2, type: 'cub', imgsrc: 'img/no_photo.png', firstname: 'Jacob', lastname: 'Grinter' },
       { name: 'Tyler Murphy', _id: 3, type: 'cub', imgsrc: 'img/no_photo.png', firstname: 'Tyler', lastname: 'Murphy' },
       { name: 'Steve Murphy', _id: 4, type: 'leader', imgsrc: 'img/no_photo.png', firstname: 'Steve', lastname: 'Murphy' }
