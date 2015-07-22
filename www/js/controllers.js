@@ -41,29 +41,65 @@ angular.module('starter.controllers', ['ionic','starter.services'])
     };
 })
 
+.controller('TestCtrl', function ($scope, entityService, photoService) {
+
+    $scope.test = function () {
+        alert('canTakePhoto: ' + photoService.canTakePhoto().toString());
+    }
+})
+
 .controller('CubsCtrl', function ($scope, entityService, photoService) {
+
     // get the cub from the entity service?
-    var query = entityService.getEntities('cub');
-    query.then(function (result) {
-        $scope.cubs = result;
-        //$scope.$apply;
-    })
+    $scope.cubs = entityService.getEntities('cub');
+    //$scope.$apply;
     
     $scope.GetPhotoSrc = function (data) {
         return photoService.FormatPhotoSrc(data);
     }
 
+    $scope.DisplayAge = function (dateOfBirth) {
+        if (dateOfBirth instanceof Date) {
+            var ageDifMs = Date.now() - dateOfBirth.getTime();
+            var ageDate = new Date(ageDifMs); // miliseconds from epoch
+            var result = (ageDate.getUTCFullYear() - 1970);
+            return result.toFixed(1);
+        }
+        else {
+            return '';
+        }
+    }
+
+
 })
 
-.controller('CubCtrl', function ($scope, $stateParams, entityService) {
+.controller('CubCtrl', function ($scope, $stateParams, entityService, photoService) {
     var whichcub = $stateParams.cubid;
 
     // load the cub from the entity service?
-    var query = entityService.getEntity(whichcub);
-    query.then(function (result) {
-        $scope.cub = result;
-        $scope.$apply;
-    })
+    $scope.cub = entityService.getEntity(whichcub);
+    //$scope.$apply;
+    
+    $scope.sixes = entityService.getEntities('six')
+    //$scope.apply;
+
+    $scope.save = function () {
+        //var cubToSave = $scope.cub;
+        //entityService.addUpdateEntity(cubToSave);
+        entityService.save();
+    }
+
+    $scope.takePhoto = function () {
+        photoService.takePhoto().then(function (photo) {
+            if (photo)
+                $scope.cub.img = photo;
+        })
+    }
+
+    $scope.GetPhotoSrc = function (data) {
+        return photoService.FormatPhotoSrc(data);
+    }
+
     
 });
 

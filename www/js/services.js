@@ -1,156 +1,151 @@
-﻿angular.module('starter.services', [])
+﻿angular.module('starter.services', ['lokijs', 'ngCordova', 'ionic'])
 
-.service("photoService", function () {
+.service("photoService", function ($cordovaCamera, $q) {
 
-    this.FormatPhotoSrc = function(data)
-    {
+    this.FormatPhotoSrc = function (data) {
         if (typeof (data) == 'undefined' || data == null || data.length < 1)
             return 'img/no_photo.png';
 
         return 'data:image/jpg;base64,' + data;
     }
-})
 
-.service("entityService", function ($q) {
-    var db = new PouchDB('cubs'); //, { adapter: 'websql' });
+    this.canTakePhoto = function () {
+        return typeof (navigator.camera) != 'undefined';
+    }
 
-    db.info().then(function (result) {
-        if (result.doc_count < 1)
-            initNewDatabase(db);
+    this.takePhoto = function () {
+        var result = $q.defer();
 
-    }).catch(function (err) {
-        console.log(err);
-    });
+        if (this.canTakePhoto()) {
+            var options = {
+                quality: 75,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.CAMERA,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 300,
+                targetHeight: 300,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false
+            };
 
-    db.changes().on('change', function () {
-        console.log('Ch-Ch-Changes');
-    });
 
-    var entities = [
-      { name: 'Grace Stewart', _id: 1, type: 'cub', img: null, firstname: 'Grace', lastname: 'Stewart', dob: '2012-04-23', dateinvested: '2012-04-23' },
-      { name: 'Jacob Grinter', _id: 2, type: 'cub', firstname: 'Jacob', lastname: 'Grinter' },
-      { name: 'Tyler Murphy', _id: 3, type: 'cub', firstname: 'Tyler', lastname: 'Murphy' },
-      { name: 'Steve Murphy', _id: 4, type: 'leader', firstname: 'Steve', lastname: 'Murphy' }
-    ];
+            $cordovaCamera.getPicture(options).then(function (imageData) {
+                console.log('got picture data: ' + imageData)
+                result.resolve(imageData);
+            }, function (err) {
+                // An error occured. Show a message to the user
+                console.log('error taking picture: ' + err);
+                result.reject(err);
+            });
 
-    function initNewDatabase(db) {
-        /*db.put({ "_id": '1', "name": 'Grace Stewart', "type": 'cub' }, function (err, result) {
-            if (!err) {
-                alert('insert ok -> id:' + result.id);
-            }
-            else
-                alert(err);
-            }
-            );
-       */
-        //db.put({ "_id": '2', "name": 'Jacob Grinter', "type": 'cub' }),
-        //db.put({ "_id": '3', "name": 'Tyler Murphy', "type": 'cub' }),
-        //db.put({ "_id": "4", "name": 'Steve Murphy', "type": 'leader' })
-        //);
+            return result.promise;
+
+        } else {
+            alert('You cannot take a photograph because the camera cannot be found, or the camera plugin cannot find it on your device.');
+        }
     }
 
 
-    this.getAllEntities = function (allEntries) {
+})
 
-        var result = $q.defer();
+.service("entityService", function (Loki, $cordovaFile, $ionicPlatform) {
+    var db, hasLoaded
+    hasLoaded = false;
 
-        result.resolve(entities);
-
-        return result.promise;
-
-        /*
-        var temp = [];
-        db.allDocs({
-            include_docs: true,
-            attachments: false
-        }).then(function (results) {
-            results.rows.forEach(function (row) {
-                temp.push(row.doc)
-            }).then(function () {
-                result.resolve(temp)
-            })
+    function newid() {
+        var d = new Date().getTime();
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = (d + Math.random() * 16) % 16 | 0;
+            d = Math.floor(d / 16);
+            return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
         });
+        return uuid;
+    }
 
-        return result.promise;
-        */
+    function initDB() {
+        // create the db for the first time
+        
+        db = {};
+        db.entities = [];
+        db.entities.push({ _id: newid(), _type: 'six', name: 'Red', color: 'Red' });
+        db.entities.push({ _id: newid(), _type: 'cub', img: null, firstname: 'Grace', lastname: 'Stewart', dob: '2012-04-23', dateinvested: '2012-04-23' })
+
+    }
+
+    function loadDB() {
+        // try to load the DB from the filesystem
+        var data = localStorage.getItem("Database");
+
+        if (!data)
+            return;
+
+        db = JSON.parse(data)
+
+        if (db)
+            hasLoaded = true;
+    }
+
+    function saveDB() {
+        localStorage.setItem("Database", JSON.stringify(db));
+    }
+
+    function ensureInit() {
+        if (hasLoaded)
+            return;
+
+        loadDB();
+
+        if (!hasLoaded) {
+            initDB();
+            hasLoaded = true;
+        }
+    }
+
+    this.getAllEntities = function (allEntries) {
+        ensureInit();
+        return db.entities;
     }
 
     this.getEntity = function (whichid) {
-        var result = $q.defer();
+        ensureInit();
 
-        var temp = entities.filter(function (obj) {
+        var temp = db.entities.filter(function (obj) {
             return obj._id == whichid;
         });
 
-        if (temp.length > 0)
-            result.resolve(temp[0]);
-        else
-            result.resolve(null);
-
-        return result.promise;
-        /*
-                
-        
-                db.get(whichid).then(function (results) {
-                    result.resolve(results);
-                });
-        
-                return result.promise;
-                */
+        return temp[0];
     }
 
     this.getEntities = function (whichtype) {
+        ensureInit();
 
-        var prom = $q.defer();
-
-        var result = entities.filter(function (obj) {
-            return obj.type == whichtype;
+        var temp = db.entities.filter(function (obj) {
+            return obj._type == whichtype;
         });
 
-        if (result.length > 0)
-            prom.resolve(result);
-        else
-            prom.resolve(null);
-
-        return prom.promise;
-
-        /*
-                var result = $q.defer();
-        
-                temp = [];
-                db.allDocs({
-                    include_docs: true,
-                    attachments: false
-                }).then(function (results) {
-                    results.rows.forEach(function (row) {
-                        if (row.doc.type == whichtype)
-                        {
-                            temp.push(row.doc);
-                        }
-                    })
-                    result.resolve(temp);
-                });
-        
-                return result.promise;
-        
-          */
-
+        return temp;
     }
 
-    this.saveEntity = function (entity) {
-        if (entity._id === undefined) {
-            // its a new entity to save
-            var newid = entities.length;
-            entity._id = newid;
-            entities.push(entity);
-        }
-        else {
-            // its an existing entity to update
-            // dont think we need to do anything here, 
-            // as its all passed by reference, should be
-            // editing the entity in the array in place. 
-        }
+    this.addEntity = function (entitytype, theentity) {
+        ensureInit();
+
+        if (!entitytype)
+            entitytype = typeof (theentity);
+
+        if (!theentity.hasOwnProperty('_id') || theentity._id === null)
+            theentity._id = newid();
+
+        if (!theentity.hasOwnProperty('_type') || theentity._type === null)
+            theentity._type = entitytype;
+
+        db.entities.push(theentity);
+
+        return theentity;
     }
 
-
+    this.save = function () {
+        if (hasLoaded)
+            saveDB();
+    }
 });
