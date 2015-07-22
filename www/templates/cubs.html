@@ -14,8 +14,12 @@
         <ion-list class="collection">
             <ion-item class="collection-item item-thumbnail-left" ng-repeat="cub in cubs | filter:query" href="#/app/cubs/{{cub._id}}">
                 <img src="{{GetPhotoSrc(cub.img)}}" width="50" height="50" alt="" class="circle">
-                <span class="title">{{cub.name}}</span>
-                <p>Additional Content here...</p>
+                <span class="title">{{cub.firstname + ' ' + cub.lastname}}</span>
+                <div class="list">
+                    <div class="item">Six: {{cub.six.color}}</div>
+                    <div class="item">Age: {{ DisplayAge(cub.dob)}}</div>
+                </div>
+
             </ion-item>
         </ion-list>
     </ion-content>

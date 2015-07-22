@@ -45,4 +45,6 @@ Stephen Murphy
       <vs:name>Scout Badges</vs:name>
     </vs:platformSpecificWidget>
   </vs:platformSpecificValues>
+  <vs:plugin name="org.apache.cordova.camera" version="0.3.6" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" />
+  <vs:plugin name="org.apache.cordova.file" version="1.3.3" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" />
 </widget>
