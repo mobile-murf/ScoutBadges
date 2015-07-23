@@ -8,6 +8,6 @@
     <ReferenceCachePath>C:\Users\Admin\AppData\Local\Temp\lut14rax_CordovaApp_refcache</ReferenceCachePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
-    <DebuggerFlavor>RippleNexus</DebuggerFlavor>
+    <DebuggerFlavor>AndroidDevice</DebuggerFlavor>
   </PropertyGroup>
 </Project>

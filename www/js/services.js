@@ -49,9 +49,91 @@
 
 })
 
-.service("entityService", function (Loki, $cordovaFile, $ionicPlatform, $q) {
-    var db, hasLoaded, entities, relationships
+.service("entityService", function (Loki, $q, $cordovaFile, $ionicPlatform) {
+    var db, hasLoaded, entities, relationships, theAdaptor, DBNAME
+    DBNAME = 'database.json';
     hasLoaded = false;
+
+    function CordovaFileAdapter() {
+    }
+
+    CordovaFileAdapter.prototype.deleteDatabase = function (name, callback) {
+        console.log('start of delete database')
+        $ionicPlatform.ready(function () {
+            if (cordova == null || cordova.file == null) {
+                // we do not seem to be running on a device, or it has not loaded, so lets try to save to persistant storage
+                localStorage.removeItem(name);
+                console.log('delete database complete');
+                callback();
+            }
+            else {
+                $cordovaFile.removeFile(cordova.file.dataDirectory, name).then(function (result) {
+                    // Success!
+                    console.log('delete database complete');
+                    callback();
+                }, function (err) {
+                    // An error occured. Show a message to the user
+                    console.log('Error Deleting Database: ' + err);
+                    callback();
+                })
+            }
+        });
+    }
+
+    CordovaFileAdapter.prototype.saveDatabase = function (name, data, callback) {
+        // insert code to save the DB to the cordova file system
+        console.log('start of save database')
+        $ionicPlatform.ready(function () {
+            if (cordova == null || cordova.file == null) {
+                // we do not seem to be running on a device, or it has not loaded, so lets try to save to persistant storage
+                localStorage.setItem(name, data);
+                console.log('save database complete');
+            }
+            else {
+                $cordovaFile.writeFile(cordova.file.dataDirectory, name, data, { 'append': false }).then(function (result) {
+                    // Success!
+                    console.log('Save Database Complete');
+                    callback(result);
+                }, function (err) {
+                    // An error occured. Show a message to the user
+                    console.log('Error Saving Database: ' + err);
+                    callback(err);
+                })
+            }
+        });
+    };
+
+    CordovaFileAdapter.prototype.loadDatabase = function (name, callback) {
+        // insert code to load 
+        console.log('start of load database');
+
+
+        $ionicPlatform.ready(function () {
+            if (cordova == null || cordova.file == null) {
+                // we do not seem to be running on a device, or it has not loaded, so lets try to save to persistant storage
+                console.log('loading data from local storage...')
+
+                var data = localStorage.getItem(name);
+
+                console.log('>>>' + data)
+
+                callback(data);
+            }
+            else {
+                $cordovaFile.readAsText(cordova.file.dataDirectory, name).then(function (result) {
+                    // Success!
+                    console.log('have loaded from cordova file system OK');
+                    callback(result);
+                }, function (err) {
+                    // An error occured. Show a message to the user
+                    console.log('Error Loading Database: ' + err);
+                    callback({ result: false });
+                })
+            }
+        })
+    }
+
+    theAdaptor = new CordovaFileAdapter();
 
     function newid() {
         var d = new Date().getTime();
@@ -70,10 +152,10 @@
     function initDB() {
         // create the db for the first time
         if (!db) {
-            db = new Loki('database.json', {
+            db = new Loki(DBNAME, {
                 autoload: true,
                 autoloadCallback: loadHandler,
-                adapter: new CordovaFileAdapter()
+                adapter: theAdaptor
             });
         }
 
@@ -107,13 +189,17 @@
         if (hasLoaded)
             return;
 
-        console.log('loadDB starting');
+        $ionicPlatform.ready(function () {
 
-        // try to load the DB from the filesystem
-        db = new Loki('database.json', {
-            autoload: true,
-            autoloadCallback: loadHandler,
-            adapter: new CordovaFileAdapter($ionicPlatform, $cordovaFile)
+            console.log('loadDB starting');
+
+            // try to load the DB from the filesystem
+            db = new Loki(DBNAME, {
+                autoload: true,
+                autoloadCallback: loadHandler,
+                adapter: theAdaptor
+            });
+
         });
 
     }
@@ -186,5 +272,12 @@
     this.save = function () {
         if (hasLoaded)
             saveDB();
+    }
+
+    this.deleteDB = function (callback) {
+        theAdaptor.deleteDatabase(DBNAME, function () {
+            console.log('Database has been deleted from this device.');
+            callback();
+        });
     }
 });

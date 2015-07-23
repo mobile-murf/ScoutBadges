@@ -41,13 +41,12 @@ angular.module('starter.controllers', ['ionic','starter.services'])
     };
 })
 
-.controller('TestCtrl', function ($scope, entityService, photoService, $ionicPlatform, $cordovaFile) {
+.controller('TestCtrl', function ($scope, entityService, photoService) {
 
     $scope.DeleteDB = function () {
         // hard core, we want to delete the database!
-        var temp = new CordovaFileAdapter($ionicPlatform, $cordovaFile);
-        temp.deleteDatabase('database.json', function () {
-            alert('deleted db OK');
+        entityService.deleteDB(function () {
+            alert('Database has been deleted from this device.');
         });
     }
 })
