@@ -49,8 +49,8 @@
 
 })
 
-.service("entityService", function (Loki, $cordovaFile, $ionicPlatform) {
-    var db, hasLoaded
+.service("entityService", function (Loki, $cordovaFile, $ionicPlatform, $q) {
+    var db, hasLoaded, entities, relationships
     hasLoaded = false;
 
     function newid() {
@@ -63,85 +63,179 @@
         return uuid;
     }
 
-    function initDB() {
-        // create the db for the first time
-        
-        db = {};
-        db.entities = [];
-        db.entities.push({ _id: newid(), _type: 'six', name: 'Red', color: 'Red' });
-        db.entities.push({ _id: newid(), _type: 'cub', img: null, firstname: 'Grace', lastname: 'Stewart', dob: '2012-04-23', dateinvested: '2012-04-23' })
-
+    function CordovaFileAdapter() {
     }
 
-    function loadDB() {
-        // try to load the DB from the filesystem
-        var data = localStorage.getItem("Database");
+    CordovaFileAdapter.prototype.saveDatabase = function (name, data, callback) {
+        // insert code to save the DB to the cordova file system
+        console.log('start of save database')
+        $ionicPlatform.ready(function () {
+            if (cordova == null || cordova.file == null) {
+                // we do not seem to be running on a device, or it has not loaded, so lets try to save to persistant storage
+                localStorage.setItem(name, data);
+            }
+            else {
+                $cordovaFile.writeFile(cordova.file.dataDirectory, name, data, { 'append': false }).then(function (result) {
+                    // Success!
+                    console.log('Save Database Complete');
+                    callback(result);
+                }, function (err) {
+                    // An error occured. Show a message to the user
+                    console.log('Error Saving Database: ' + err);
+                    callback(err);
+                })
+            }
+        });
+    };
 
-        if (!data)
-            return;
+    CordovaFileAdapter.prototype.loadDatabase = function (name, callback) {
+        // insert code to load 
+        console.log('start of load database');
 
-        db = JSON.parse(data)
 
-        if (db)
-            hasLoaded = true;
+        $ionicPlatform.ready(function () {
+            if (cordova == null || cordova.file == null) {
+                // we do not seem to be running on a device, or it has not loaded, so lets try to save to persistant storage
+                console.log('loading data from local storage...')
+
+                var data = localStorage.getItem(name);
+
+                console.log('>>>' + data)
+
+                callback(data);
+            }
+            else {
+                $cordovaFile.readAsText(cordova.file.dataDirectory, name).then(function (result) {
+                    // Success!
+                    console.log('have loaded from cordova file system OK');
+                    callback(result);
+                }, function (err) {
+                    // An error occured. Show a message to the user
+                    console.log('Error Loading Database: ' + err);
+                    callback({ result: false });
+                })
+            }
+        })
     }
 
     function saveDB() {
-        localStorage.setItem("Database", JSON.stringify(db));
+        db.save();
     }
 
-    function ensureInit() {
-        if (hasLoaded)
-            return;
+    function initDB() {
+        // create the db for the first time
+        if (!db) {
+            db = new Loki('database.json', {
+                autoload: true,
+                autoloadCallback: loadHandler,
+                adapter: new CordovaFileAdapter()
+            });
+        }
 
-        loadDB();
+        entities = db.addCollection('entities', { indices: ['_id', '_type'] });
+        relationships = db.addCollection('relationships', { indices: ['_id', '_type'] });
 
-        if (!hasLoaded) {
-            initDB();
+        var six1 = entities.insert({ _id: newid(), _type: 'six', name: 'Red', color: 'Red' });
+        var cub1 = entities.insert({ _id: newid(), _type: 'cub', img: null, firstname: 'Grace', lastname: 'Stewart', dob: Date.parse('2005-01-01'), dateinvested: Date.parse('2012-04-23') })
+        var cub2 = entities.insert({ _id: newid(), _type: 'cub', img: null, firstname: 'Tyler', lastname: 'Murphy', dob: Date.parse('2006-12-17'), dateinvested: Date.parse('2012-04-23') })
+
+        relationships.add({ _id: newid(), _type: 'cubsix', fromid: six1._id, toid: cub1._id });
+
+        db.save();
+
+    }
+
+    function loadHandler() {
+        if (db && db.collections && db.collections.length > 0) {
+            entities = db.getCollection('entities');
+            relationships = db.getCollection('relationships');
             hasLoaded = true;
+        }
+        else
+        {
+            initDB();
         }
     }
 
-    this.getAllEntities = function (allEntries) {
-        ensureInit();
-        return db.entities;
+    function loadDB() {
+        // dont try to load if already loaded/
+        if (hasLoaded)
+            return;
+
+        console.log('loadDB starting');
+
+        // try to load the DB from the filesystem
+        db = new Loki('database.json', {
+            autoload: true,
+            autoloadCallback: loadHandler,
+            adapter: new CordovaFileAdapter()
+        });
+
+    }
+
+    function hasDBLoadedYet() {
+        return hasLoaded;
+    }
+
+    function waitForInit() {
+        var deferred = $q.defer();
+
+        if (hasLoaded)
+        {
+            deferred.resolve();
+            return deferred.promise;
+        }
+            
+
+        loadDB();
+
+        waitfor(hasDBLoadedYet, true, 50, 0, '', function () {
+            console.log('database is ready');
+            deferred.resolve();
+        });
+
+        return deferred.promise;
     }
 
     this.getEntity = function (whichid) {
-        ensureInit();
+        var deferred = $q.defer();
 
-        var temp = db.entities.filter(function (obj) {
-            return obj._id == whichid;
+        waitForInit().then(function () {
+            deferred.resolve(entities.findOne({ '_id': whichid }));
         });
 
-        return temp[0];
+        return deferred.promise;
     }
 
     this.getEntities = function (whichtype) {
-        ensureInit();
+        var deferred = $q.defer();
 
-        var temp = db.entities.filter(function (obj) {
-            return obj._type == whichtype;
+        waitForInit().then(function () {
+            deferred.resolve(entities.find({ '_type': whichtype }));
         });
 
-        return temp;
+        return deferred.promise;
     }
 
     this.addEntity = function (entitytype, theentity) {
-        ensureInit();
+        var deferred = $q.defer();
 
-        if (!entitytype)
-            entitytype = typeof (theentity);
+        waitForInit().then(function () {
+            if (!entitytype)
+                entitytype = typeof (theentity);
 
-        if (!theentity.hasOwnProperty('_id') || theentity._id === null)
-            theentity._id = newid();
+            if (!theentity.hasOwnProperty('_id') || theentity._id === null)
+                theentity._id = newid();
 
-        if (!theentity.hasOwnProperty('_type') || theentity._type === null)
-            theentity._type = entitytype;
+            if (!theentity.hasOwnProperty('_type') || theentity._type === null)
+                theentity._type = entitytype;
 
-        db.entities.push(theentity);
+            entities.insert(theentity)
 
-        return theentity;
+            deferred.resolve(theentity);
+        });
+
+        return deferred.promise;
     }
 
     this.save = function () {

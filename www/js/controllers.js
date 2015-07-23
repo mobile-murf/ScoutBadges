@@ -51,8 +51,9 @@ angular.module('starter.controllers', ['ionic','starter.services'])
 .controller('CubsCtrl', function ($scope, entityService, photoService) {
 
     // get the cub from the entity service?
-    $scope.cubs = entityService.getEntities('cub');
-    //$scope.$apply;
+    entityService.getEntities('cub').then(function (result) {
+        $scope.cubs = result;
+    });
     
     $scope.GetPhotoSrc = function (data) {
         return photoService.FormatPhotoSrc(data);
@@ -77,12 +78,14 @@ angular.module('starter.controllers', ['ionic','starter.services'])
     var whichcub = $stateParams.cubid;
 
     // load the cub from the entity service?
-    $scope.cub = entityService.getEntity(whichcub);
-    //$scope.$apply;
-    
-    $scope.sixes = entityService.getEntities('six')
-    //$scope.apply;
+    entityService.getEntity(whichcub).then(function (result) {
+        $scope.cub = result;
+    });
 
+    entityService.getEntities('six').then(function (result) {
+        $scope.sixes = result;
+    });
+    
     $scope.save = function () {
         //var cubToSave = $scope.cub;
         //entityService.addUpdateEntity(cubToSave);
