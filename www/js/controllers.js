@@ -41,24 +41,72 @@ angular.module('starter.controllers', ['ionic','starter.services'])
     };
 })
 
-.controller('TestCtrl', function ($scope, entityService, photoService) {
+.controller('TestCtrl', function ($scope, entityService, photoService, $ionicPlatform, $cordovaFile) {
 
-    $scope.test = function () {
-        alert('canTakePhoto: ' + photoService.canTakePhoto().toString());
+    $scope.DeleteDB = function () {
+        // hard core, we want to delete the database!
+        var temp = new CordovaFileAdapter($ionicPlatform, $cordovaFile);
+        temp.deleteDatabase('database.json', function () {
+            alert('deleted db OK');
+        });
     }
 })
 
-.controller('CubsCtrl', function ($scope, entityService, photoService) {
+.controller('CubsCtrl', function ($scope, $ionicModal, entityService, photoService) {
+    // set up the new cub dialog
+    $scope.newcub = {}; // variable to hold the new cub in.
 
-    // get the cub from the entity service?
+    // make the call to populate the cubs list    
     entityService.getEntities('cub').then(function (result) {
         $scope.cubs = result;
     });
     
+
+    // create the modal bits for new cub dialog
+    $ionicModal.fromTemplateUrl('templates/cub-new.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        $scope.newcubdialog = modal;
+    });
+
+    //Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+        $scope.newcubdialog.remove();
+    });
+    
+    // new cub button click handler
+    $scope.AddNewCub = function () {
+        $scope.newcubdialog.show();
+    }
+
+    // save cub handler for dialog
+    $scope.NewCubSave = function () {
+        var newcub = $scope.newcub;
+
+        entityService.addEntity('cub', newcub).then(function (newentity) {
+            entityService.save();
+            $scope.newcub = {}; // reset the dialog for another cub
+            $scope.newcubdialog.hide();
+        }).then(function () {
+            entityService.getEntities('cub').then(function (result) {
+                $scope.cubs = result;
+            });
+        });
+    }
+
+    // cancel new cub handler for dialog
+    $scope.NewCubCancel = function () {
+        $scope.newcub = {}; // reset the dialog for another cub
+        $scope.newcubdialog.hide();
+    }
+
+    // helper function to display cub photos
     $scope.GetPhotoSrc = function (data) {
         return photoService.FormatPhotoSrc(data);
     }
 
+    // helper function to display cub age based on DOB
     $scope.DisplayAge = function (dateOfBirth) {
         if (dateOfBirth instanceof Date) {
             var ageDifMs = Date.now() - dateOfBirth.getTime();
@@ -71,7 +119,7 @@ angular.module('starter.controllers', ['ionic','starter.services'])
         }
     }
 
-
+    
 })
 
 .controller('CubCtrl', function ($scope, $stateParams, entityService, photoService) {

@@ -63,61 +63,6 @@
         return uuid;
     }
 
-    function CordovaFileAdapter() {
-    }
-
-    CordovaFileAdapter.prototype.saveDatabase = function (name, data, callback) {
-        // insert code to save the DB to the cordova file system
-        console.log('start of save database')
-        $ionicPlatform.ready(function () {
-            if (cordova == null || cordova.file == null) {
-                // we do not seem to be running on a device, or it has not loaded, so lets try to save to persistant storage
-                localStorage.setItem(name, data);
-            }
-            else {
-                $cordovaFile.writeFile(cordova.file.dataDirectory, name, data, { 'append': false }).then(function (result) {
-                    // Success!
-                    console.log('Save Database Complete');
-                    callback(result);
-                }, function (err) {
-                    // An error occured. Show a message to the user
-                    console.log('Error Saving Database: ' + err);
-                    callback(err);
-                })
-            }
-        });
-    };
-
-    CordovaFileAdapter.prototype.loadDatabase = function (name, callback) {
-        // insert code to load 
-        console.log('start of load database');
-
-
-        $ionicPlatform.ready(function () {
-            if (cordova == null || cordova.file == null) {
-                // we do not seem to be running on a device, or it has not loaded, so lets try to save to persistant storage
-                console.log('loading data from local storage...')
-
-                var data = localStorage.getItem(name);
-
-                console.log('>>>' + data)
-
-                callback(data);
-            }
-            else {
-                $cordovaFile.readAsText(cordova.file.dataDirectory, name).then(function (result) {
-                    // Success!
-                    console.log('have loaded from cordova file system OK');
-                    callback(result);
-                }, function (err) {
-                    // An error occured. Show a message to the user
-                    console.log('Error Loading Database: ' + err);
-                    callback({ result: false });
-                })
-            }
-        })
-    }
-
     function saveDB() {
         db.save();
     }
@@ -168,7 +113,7 @@
         db = new Loki('database.json', {
             autoload: true,
             autoloadCallback: loadHandler,
-            adapter: new CordovaFileAdapter()
+            adapter: new CordovaFileAdapter($ionicPlatform, $cordovaFile)
         });
 
     }

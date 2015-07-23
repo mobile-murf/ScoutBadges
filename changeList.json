@@ -1087,7 +1087,22 @@
     ".git\\objects\\66\\680097f7f291ecf144a76bd435f15987e8af49",
     "www\\lib\\ionic\\scss\\_radio.scss",
     "www\\lib\\materialize\\dist\\css\\materialize.css",
-    "plugins\\org.apache.cordova.camera\\src\\ubuntu\\camera.h"
+    "plugins\\org.apache.cordova.camera\\src\\ubuntu\\camera.h",
+    ".git\\objects\\c3\\26b9d44f2349e3262444697a103d009b010606",
+    ".git\\objects\\2d\\0cb91c695fb528becf5ea859f9a18b5cb77f81",
+    ".git\\objects\\a7\\a2d12fb49f1b485fc616da0c209bc343ffe858",
+    ".git\\objects\\21\\1bdd9871c3c3decc330477a436f551b666bcb0",
+    ".git\\objects\\fc\\feef8bc66888096ff150c931c289a12b99799e",
+    ".git\\objects\\cf\\5bdda6c2ad1f6f6ad0cd35969d669a328d7f8e",
+    ".git\\objects\\09\\bea382a545a7dcab0ffba2ada7436964974f50",
+    ".git\\objects\\6f\\0709ff7766d87119eb26846c70642223935dad",
+    ".git\\objects\\bc\\4da1f6506ccae1162219c5a56b74a78fd62bd4",
+    ".git\\objects\\92\\787cc15ce394f7fc6796fc3cac6395e8ec2b6d",
+    ".git\\objects\\a5\\6cb9d426b5f75b4703e864a78dc0c04b2c473a",
+    ".git\\objects\\fc\\493f5bec126e4854be9090f9c18ed9c55b17ce",
+    ".git\\objects\\f6\\b9d27b2814338bfddb997fadd3486bc7b373d3",
+    "www\\templates\\cub-new.html",
+    "www\\js\\CordovaFileAdapter.js"
   ],
   "deletedFilesIos": [],
   "addedPluginsIos": [
@@ -1098,7 +1113,8 @@
   "changedFiles": [
     "www\\scripts\\appBundle.js.map",
     "www\\scripts\\appBundle.js",
-    "plugins\\android.json"
+    "plugins\\android.json",
+    "www\\templates\\cubs.html"
   ],
   "deletedFiles": [],
   "addedPlugins": [],

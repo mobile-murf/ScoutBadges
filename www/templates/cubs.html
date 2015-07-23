@@ -1,6 +1,6 @@
 <ion-view view-title="Cubs">
     <ion-nav-buttons side="secondary">
-        <button class="button button-icon button-clear ion-person-add"></button>
+        <button class="button button-icon button-clear ion-person-add" ng-click="AddNewCub();"></button>
     </ion-nav-buttons>
 
     <ion-content>
@@ -12,7 +12,7 @@
         </div>
 
         <ion-list class="collection">
-            <ion-item class="collection-item item-thumbnail-left" ng-repeat="cub in cubs | filter:query" href="#/app/cubs/{{cub._id}}">
+            <ion-item class="collection-item item-thumbnail-left" ng-repeat="cub in cubs | filter:query track by $index" href="#/app/cubs/{{cub._id}}">
                 <img src="{{GetPhotoSrc(cub.img)}}" width="50" height="50" alt="" class="circle">
                 <span class="title">{{cub.firstname + ' ' + cub.lastname}}</span>
                 <p>
