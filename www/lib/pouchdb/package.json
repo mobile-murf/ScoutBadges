@@ -1,6 +1,6 @@
 {
   "name": "pouchdb",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "description": "PouchDB is a pocket-sized database.",
   "main": "./lib/index.js",
   "homepage": "http://pouchdb.com/",
@@ -44,7 +44,9 @@
     "leveldown": "~0.10.2"
   },
   "devDependencies": {
-    "pouchdb-express-router": "^0.0.2",
+    "throw-max-listeners-error": "^1.0.0",
+    "child-process-promise": "^1.1.0",
+    "pouchdb-express-router": "^0.0.5",
     "bundle-collapser": "^1.1.1",
     "rimraf": "2.2.8",
     "pouchdb-server": "^0.6.1",
@@ -64,7 +66,6 @@
     "glob": "~3.2.9",
     "watch-glob": "~0.1.1",
     "mkdirp": "~0.4.2",
-    "exec-sync": "~0.1.6",
     "ua-parser-js": "^0.6.2",
     "chai": "^1.9.1",
     "mocha": "^1.18.2",
@@ -80,7 +81,7 @@
   },
   "scripts": {
     "build-js": "npm run build-main-js && npm run min && npm run build-plugins",
-    "build-main-js": "browserify . -s PouchDB -p bundle-collapser/plugin | ./bin/es3ify.js | derequire > dist/pouchdb.js",
+    "build-main-js": "browserify . -s PouchDB -p bundle-collapser/plugin | node ./bin/es3ify.js | derequire > dist/pouchdb.js",
     "min": "uglifyjs dist/pouchdb.js -mc > dist/pouchdb.min.js",
     "build-plugins": "sh bin/build-all-plugins.sh",
     "build": "npm run version && mkdirp dist && npm run build-js && npm run license",
@@ -89,6 +90,7 @@
     "test-unit": "mocha tests/unit",
     "test-node": "sh bin/test-node.sh",
     "test-component": "mocha tests/component",
+    "test-fuzzy": "TYPE=fuzzy npm run test",
     "test-browser": "mkdirp dist && npm run build-js && node ./bin/test-browser.js",
     "cordova": "npm run build && sh bin/run-cordova.sh",
     "jshint": "jshint -c .jshintrc bin/ lib/ tests/",

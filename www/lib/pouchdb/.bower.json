@@ -1,6 +1,6 @@
 {
   "name": "pouchdb",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "description": "PouchDB is a pocket-sized database.",
   "repo": "daleharvey/pouchdb",
   "keywords": [
@@ -26,13 +26,13 @@
     "phantomjsdriver.log"
   ],
   "homepage": "https://github.com/daleharvey/pouchdb",
-  "_release": "3.5.0",
+  "_release": "3.6.0",
   "_resolution": {
     "type": "version",
-    "tag": "3.5.0",
-    "commit": "3786805378e72b06d2fd6a7f6a91bce4ddf0750c"
+    "tag": "3.6.0",
+    "commit": "849fd7ae440824c46d3219c90dea4e49caf08693"
   },
   "_source": "git://github.com/daleharvey/pouchdb.git",
-  "_target": "~3.5.0",
+  "_target": "~3.6.0",
   "_originalSource": "pouchdb"
 }

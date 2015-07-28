@@ -1,0 +1,26 @@
+<ion-view view-title="Cubs">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-icon button-clear ion-person-add" ng-click="AddNewCub();"></button>
+    </ion-nav-buttons>
+
+    <ion-content ng-controller="cubsController as vm">
+        <div class="list">
+            <label class="item item-input">
+                <i class="icon ion-funnel placeholder-icon"></i>
+                <input ng-model="query" type="text" placeholder="Filter">
+            </label>
+        </div>
+
+        <ion-list class="collection">
+            <ion-item class="collection-item item-thumbnail-left" ng-repeat="cub in vm.cubs | filter:query track by $index" href="#/app/cubs/{{cub._id}}">
+                <img src="{{vm.GetPhotoSrc(cub.img)}}" width="50" height="50" alt="" class="circle">
+                <span class="title">{{cub.firstname + ' ' + cub.lastname}}</span>
+                <p>
+                    <span>Six: {{cub.six.color}}</span><br />
+                    <span>Age: {{ vm.DisplayAge(cub.dob)}}</span>
+                </p>
+
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
