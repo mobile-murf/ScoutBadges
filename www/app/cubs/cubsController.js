@@ -7,7 +7,7 @@
             cubsController
         );
 
-    function cubsController($ionicModal, entityService, photoService) {
+    function cubsController($scope, $ionicModal, entityService, photoService, modalService) {
         var vm = this;
 
         // set up the new cub dialog
@@ -24,22 +24,26 @@
         })
 
         //// create the modal bits for new cub dialog
-        //$ionicModal.fromTemplateUrl('templates/cub-new.html', {
-        //    scope: vm,
+        //$ionicModal.fromTemplateUrl('/app/cubs/cub-new.html', {
+        //    scope: $scope,
         //    animation: 'slide-in-up'
         //}).then(function (modal) {
         //    vm.newcubdialog = modal;
         //});
 
         ////Cleanup the modal when we're done with it!
-        //vm.$on('$destroy', function () {
+        //$scope.$on('$destroy', function () {
         //    vm.newcubdialog.remove();
         //});
 
-        //// new cub button click handler
-        //vm.AddNewCub = function () {
-        //    vm.newcubdialog.show();
-        //}
+        // new cub button click handler
+        vm.AddNewCub = function () {
+            var params = null;
+            modalService.show('/app/cubs/cub-new.html', 'cubsController', params)
+            .then(function (result) {
+                alert(result);
+            });
+        }
 
         //// save cub handler for dialog
         //vm.NewCubSave = function () {

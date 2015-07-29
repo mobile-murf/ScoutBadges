@@ -54,6 +54,26 @@
                     controller: 'cubController'
                 }
             }
+        })
+
+        .state('app.sixes', {
+            url: "/sixes",
+            views: {
+                'menuContent': {
+                    templateUrl: "/app/sixes/sixes.html",
+                    controller: 'sixesController'
+                }
+            }
+        })
+
+        .state('app.six', {
+            url: "/sixes/:sixid",
+            views: {
+                'menuContent': {
+                    templateUrl: "/app/sixes/six.html",
+                    controller: 'sixController'
+                }
+            }
         });
 
         // if none of the above states are matched, use this as the fallback

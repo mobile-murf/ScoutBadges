@@ -1,9 +1,9 @@
-<ion-view view-title="Cubs">
+<ion-view view-title="Cubs" ng-controller="cubsController as vm">
     <ion-nav-buttons side="secondary">
-        <button class="button button-icon button-clear ion-person-add" ng-click="AddNewCub();"></button>
+        <button class="button button-icon button-clear ion-person-add" ng-click="vm.AddNewCub();"></button>
     </ion-nav-buttons>
 
-    <ion-content ng-controller="cubsController as vm">
+    <ion-content>
         <div class="list">
             <label class="item item-input">
                 <i class="icon ion-funnel placeholder-icon"></i>

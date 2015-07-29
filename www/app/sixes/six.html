@@ -1,0 +1,28 @@
+<ion-view view-title="{{vm.entity.name}}" ng-controller="sixController as vm">
+    
+        <ion-nav-buttons side="secondary">
+            <button class="button button-icon button-clear ion-ios-cloud-upload" ng-click="vm.save();">
+                
+            </button>
+        </ion-nav-buttons>
+
+    
+    
+
+        <ion-content>
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label">Six Name</span>
+                    <input id="first_name" type="text" ng-model="vm.entity.name" required />
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Six Colour</span>
+                    <input id="last_name" type="text" ng-model="vm.entity.color" required />
+                </label>
+                <a class="item item-button-right" href="#">
+                    Cubs
+                    <i class="icon ion-images"></i>
+                </a>
+            </div>
+        </ion-content>
+</ion-view>

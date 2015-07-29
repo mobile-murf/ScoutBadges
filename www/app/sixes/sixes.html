@@ -1,0 +1,20 @@
+<ion-view view-title="Sixes" ng-controller="sixesController as vm">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-icon button-clear ion-plus-circled" ng-click="vm.AddNewEntity();"></button>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <div class="list">
+            <label class="item item-input">
+                <i class="icon ion-funnel placeholder-icon"></i>
+                <input ng-model="query" type="text" placeholder="Filter">
+            </label>
+        </div>
+
+        <ion-list class="collection">
+            <ion-item class="collection-item item-thumbnail-left" ng-repeat="six in vm.sixes | filter:query track by $index" href="#/app/sixes/{{six._id}}">
+                <span class="title">{{six.name}}</span>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
