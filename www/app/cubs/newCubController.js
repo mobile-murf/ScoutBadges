@@ -7,23 +7,28 @@
             newCubController
         );
 
-    function newCubController($scope, close) {
-        var newcub = {}
+    function newCubController($scope, $rootScope, entityService) {
+        var vm = this;
+
+        vm.newcub = {}
 
         // save cub handler for dialog
-        this.NewCubSave = function () {
-            //entityService.addEntity('cub', newcub).then(function (newentity) {
-            //    entityService.save();
-            //}).then(function () {
-            //    newcub = {}; // reset the dialog for another cub
-                close('success');
-            //});
+        vm.NewCubSave = function () {
+            entityService
+                .addEntity('cub', vm.newcub)
+                .then(function (newentity) {
+                    entityService.save();
+                })
+                .then(function () {
+                    $rootScope.$broadcast('entities-changed');
+                    $scope.closeModal();
+                });
+                
         }
 
         // cancel new cub handler for dialog
-        this.NewCubCancel = function () {
-            newcub = {}; // reset the dialog for another cub
-            close('cancel');
+        vm.NewCubCancel = function () {
+            $scope.closeModal();
         }
 
     }

@@ -11,6 +11,8 @@
             </label>
         </div>
 
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="vm.Refresh();"></ion-refresher>
+
         <ion-list class="collection">
             <ion-item class="collection-item item-thumbnail-left" ng-repeat="cub in vm.cubs | filter:query track by $index" href="#/app/cubs/{{cub._id}}">
                 <img ng-src="{{vm.GetPhotoSrc(cub.img)}}" style="max-height: 100px; max-width: 100px" alt="" class="circle">
