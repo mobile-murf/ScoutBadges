@@ -7,7 +7,7 @@
             cubsController
         );
 
-    function cubsController($scope, $ionicModal, entityService, photoService, modalService) {
+    function cubsController($scope, $ionicModal, entityService, photoService, ModalService) {
         var vm = this;
 
         // set up the new cub dialog
@@ -38,10 +38,14 @@
 
         // new cub button click handler
         vm.AddNewCub = function () {
-            var params = null;
-            modalService.show('/app/cubs/cub-new.html', 'cubsController', params)
-            .then(function (result) {
-                alert(result);
+            ModalService.showModal({
+                templateUrl: "app/cubs/cub-new.html",
+                controller: "newCubController",
+                controllerAs: "vm"
+            }).then(function (modal) {
+                modal.close.then(function (result) {
+                    alert('closed');
+                });
             });
         }
 

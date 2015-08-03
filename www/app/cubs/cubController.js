@@ -11,7 +11,8 @@
         var vm = this;
 
         //module variables
-        var whichcub = $stateParams.cubid;
+        var whichcub = $stateParams.cubid; // variable to hold the id of the cub we are working with
+        var opened; // variable to define if the calendar is open or closed
 
         //vm functions
         vm.save = function () {
@@ -30,8 +31,6 @@
             return photoService.FormatPhotoSrc(data);
         }
 
-
-        
         // initalization routines
 
         // load the packs list
