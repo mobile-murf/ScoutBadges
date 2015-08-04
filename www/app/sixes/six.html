@@ -6,23 +6,27 @@
             </button>
         </ion-nav-buttons>
 
-    
-    
-
         <ion-content>
             <div class="list">
                 <label class="item item-input">
                     <span class="input-label">Six Name</span>
                     <input id="first_name" type="text" ng-model="vm.entity.name" required />
                 </label>
-                <label class="item item-input">
-                    <span class="input-label">Six Colour</span>
-                    <input id="last_name" type="text" ng-model="vm.entity.color" required />
-                </label>
-                <a class="item item-button-right" href="#">
+                
+                <div class="item item-divider">
                     Cubs
-                    <i class="icon ion-images"></i>
-                </a>
+                </div>
+
+                <ion-item class="collection-item item-thumbnail-left" ng-repeat="cub in vm.cubs track by $index" href="#/app/cubs/{{cub._id}}">
+                    <img ng-src="{{vm.GetPhotoSrc(cub.img)}}" style="max-height: 100px; max-width: 100px" alt="" class="circle">
+                    <span class="title">{{cub.firstname + ' ' + cub.lastname}}</span>
+                    <p>
+                        <span>Six: {{cub.six.color}}</span><br />
+                        <span>Age: {{ vm.DisplayAge(cub.dob)}}</span>
+                    </p>
+
+                </ion-item>
+                
             </div>
         </ion-content>
 </ion-view>

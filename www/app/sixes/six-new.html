@@ -1,21 +1,17 @@
-﻿    <ion-modal-view ng-controller="sixesController as vm">
+﻿    <ion-modal-view>
         <ion-header-bar>
             <h1 class="title">New Six</h1>
         </ion-header-bar>
         <ion-content>
-            <form name="newcub">
+            <form name="form" ng-controller="newSixController as vm">
                 <div class="list">
                     <label class="item item-input">
                         <span class="input-label">Name</span>
-                        <input id="first_name" type="text" ng-model="vm.newentity.name">
-                    </label>
-                    <label class="item item-input">
-                        <span class="input-label">Colour</span>
-                        <input id="last_name" type="text" ng-model="vm.newentity.color">
+                        <input id="name" type="text" ng-model="vm.newentity.name">
                     </label>
                 </div>
-                <button class="button button-positive" ng-click="vm.NewEntitySave();">Save</button>
-                <button class="button button-assertive" ng-click="vm.NewEntityCancel();">Cancel</button>
+                <button class="button button-positive" ng-click="vm.Save();">Save</button>
+                <button class="button button-assertive" ng-click="vm.Cancel();">Cancel</button>
             </form>
         </ion-content>
     </ion-modal-view>

@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    var app = angular.module('starter', ['ionic', 'starter.controllers'])
+    var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives'])
 
     app.run(function ($ionicPlatform) {
         $ionicPlatform.ready(function () {

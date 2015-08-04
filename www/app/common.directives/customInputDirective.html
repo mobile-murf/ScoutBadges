@@ -1,0 +1,11 @@
+﻿<div>
+    <label for="{{ fieldname }}" ng-transclude></label>
+    <input id="{{ fieldname }}" ng-model="ngModel" />
+    <div ng-messages="{{ ngModel.$error }}" role="alert">
+        <div ng-message="required">Required Field</div>
+        <div ng-repeat="errorMessage in errorMessages">
+            <!-- use ng-message-exp for a message whose key is given by an expression -->
+            <div ng-message-exp="errorMessage.type">{{ errorMessage.text }}</div>
+        </div>
+    </div>
+</div>

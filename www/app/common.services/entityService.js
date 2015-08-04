@@ -121,11 +121,23 @@
             entities = db.addCollection('entities', { indices: ['_id', '_type'] });
             relationships = db.addCollection('relationships', { indices: ['_id', '_type'] });
 
-            var six1 = entities.insert({ _id: newid(), _type: 'six', name: 'Red', color: 'Red' });
+            var six1 = entities.insert({ _id: newid(), _type: 'six', name: 'Black' });
+            var six2 = entities.insert({ _id: newid(), _type: 'six', name: 'Brown' });
+            var six3 = entities.insert({ _id: newid(), _type: 'six', name: 'Red' });
+            var six4 = entities.insert({ _id: newid(), _type: 'six', name: 'Tawny' });
+            var six5 = entities.insert({ _id: newid(), _type: 'six', name: 'White' });
+
+            var pack1 = entities.insert({ _id: newid(), _type: 'pack', name: 'Hamilton' });
+            var pack2 = entities.insert({ _id: newid(), _type: 'pack', name: 'Jackson' });
+
             var cub1 = entities.insert({ _id: newid(), _type: 'cub', img: null, firstname: 'Grace', lastname: 'Stewart', dob: Date.parse('2005-01-01'), dateinvested: Date.parse('2012-04-23') })
             var cub2 = entities.insert({ _id: newid(), _type: 'cub', img: null, firstname: 'Tyler', lastname: 'Murphy', dob: Date.parse('2006-12-17'), dateinvested: Date.parse('2012-04-23') })
 
             relationships.add({ _id: newid(), _type: 'cubsix', fromid: six1._id, toid: cub1._id });
+            relationships.add({ _id: newid(), _type: 'cubsix', fromid: six2._id, toid: cub2._id });
+
+            relationships.add({ _id: newid(), _type: 'cubpack', fromid: pack1._id, toid: cub1._id });
+            relationships.add({ _id: newid(), _type: 'cubpack', fromid: pack2._id, toid: cub2._id });
 
             db.save();
 

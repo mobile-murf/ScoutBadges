@@ -1,6 +1,6 @@
 <ion-view view-title="Sixes" ng-controller="sixesController as vm">
     <ion-nav-buttons side="secondary">
-        <button class="button button-icon button-clear ion-plus-circled" ng-click="vm.AddNewEntity();"></button>
+        <button class="button button-icon button-clear ion-plus-circled" ng-click="vm.AddNew();"></button>
     </ion-nav-buttons>
 
     <ion-content>
@@ -11,9 +11,12 @@
             </label>
         </div>
 
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="vm.Refresh();"></ion-refresher>
+
         <ion-list class="collection">
-            <ion-item class="collection-item item-thumbnail-left" ng-repeat="six in vm.sixes | filter:query track by $index" href="#/app/sixes/{{six._id}}">
+            <ion-item ng-repeat="six in vm.entities | filter:query track by $index" href="#/app/sixes/{{six._id}}">
                 <span class="title">{{six.name}}</span>
+                <span class="title">{{six._id}}</span>
             </ion-item>
         </ion-list>
     </ion-content>

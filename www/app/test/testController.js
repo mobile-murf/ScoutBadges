@@ -11,7 +11,9 @@
         var vm = this;
 
         //module variables
-        
+        vm.customfield = "some data";
+        vm.customfield2 = "more data";
+
         //vm functions
         vm.deleteDB = function () {
             entityService.deleteDB();
